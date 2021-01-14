@@ -4,7 +4,7 @@ import Gallery from "./Gallery"
 
 const HomePage = () => {
   return (
-    <div>
+    <div >
       <Gallery />
     </div>
   )

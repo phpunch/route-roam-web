@@ -49,7 +49,7 @@ const Gallery: React.FunctionComponent = () => {
     );
   });
   return (
-    <div>
+    <div style={{marginTop: '75px'}}>
       <Masonry
         // style={style}
         // className={'my-gallery-class'} // default ''
