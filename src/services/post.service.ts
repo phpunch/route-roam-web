@@ -1,13 +1,13 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-class UserService {
+class PostService {
   getPosts() {
     return axios.get(process.env.API_BASE_URL + '/posts', { headers: authHeader() });
   }
-  // createPost(text, filepath) {
-  //   return axios.post(process.env.API_BASE_URL + '/post', { headers: authHeader(), data: form } )
-  // }
+  createPost(formData: FormData) {
+    return axios.post(process.env.API_BASE_URL + '/post', formData , { headers: authHeader() } )
+  }
 
   // router.POST("/post", c.CreatePost)
 	// 	router.POST("/like", c.LikePost)
@@ -17,4 +17,4 @@ class UserService {
 	// 	router.GET("/comment/:postId", c.GetCommentsByPostID)
 }
 
-export default new UserService();
+export default new PostService();
