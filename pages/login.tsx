@@ -3,8 +3,8 @@ import React from 'react';
 import styled from '@emotion/styled';
 import TextField from '@material-ui/core/TextField';
 import { Button, Typography } from '@material-ui/core';
-import axios from 'axios';
 import { useState } from 'react';
+import AuthService from '../src/services/auth.service';
 
 const Form = styled.form`
   margin-top: 75px;
@@ -23,28 +23,57 @@ const TextInput = styled(TextField)`
   margin-top: 10px;
 `;
 
-const LoginButton = styled(Button)`
+const SubmitButton = styled(Button)`
   margin-top: 35px;
 `;
+
+const SuccessMessageBox = styled.div`
+  width: 100%;
+  background-color: #95ff95;
+  color: green;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+  text-align: center;
+`
+const FailedMessageBox = styled.div`
+  width: 100%;
+  background-color: #ffe2e2;
+  color: red;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+  text-align: center;
+`
 
 export default function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [message, setMessage] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const loginHandler = async () => {
-    const formData = new FormData();
-    formData.append('email', email)
-    formData.append('password', password)
     try {
-      const res = await axios.post(process.env.API_BASE_URL + '/register', formData);
-      console.log(res)
+      const data = await AuthService.login(email, password);
+      setMessage(data.message)
+      setSuccess(true)
     } catch (e) {
-      console.log(e);
+      setMessage(e.response.data.message)
+      setSuccess(false)
     }
   };
 
+  let messageBox = null
+  if (message) {
+    if (success) {
+      messageBox = <SuccessMessageBox>{message}</SuccessMessageBox>
+    } else {
+      messageBox = <FailedMessageBox>{message}</FailedMessageBox>
+    }
+  }
+
   return (
-    <>
+    <p>
       <Form noValidate autoComplete="off">
         <Text variant="h6" align="center">
           Login
@@ -62,18 +91,20 @@ export default function Login() {
           label="password"
           variant="outlined"
           fullWidth
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <LoginButton
+        <SubmitButton
           onClick={loginHandler}
           color="primary"
           variant="contained"
           fullWidth
         >
           Login
-        </LoginButton>
+        </SubmitButton>
+        {messageBox}
       </Form>
-    </>
+    </p>
   );
 }
