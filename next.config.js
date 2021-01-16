@@ -19,7 +19,7 @@ module.exports = compose(withFonts, withSass, withCSS)({
     return config;
   },
   env: {
-    API_BASE_URL: getApiBaseUrl() || 'https://localhost:5000'
+    API_BASE_URL: getApiBaseUrl() || 'http://localhost:8080'
   },
   basePath: '',
   assetPrefix: '',
