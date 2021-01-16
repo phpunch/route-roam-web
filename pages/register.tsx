@@ -23,7 +23,7 @@ const TextInput = styled(TextField)`
   margin-top: 10px;
 `;
 
-const LoginButton = styled(Button)`
+const SubmitButton = styled(Button)`
   margin-top: 35px;
 `;
 
@@ -97,14 +97,14 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <LoginButton
+        <SubmitButton
           onClick={registerHandler}
           color="primary"
           variant="contained"
           fullWidth
         >
           Login
-        </LoginButton>
+        </SubmitButton>
         {messageBox}
       </Form>
     </p>
