@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import '../styles/globals.css';
 import styled from '@emotion/styled';
-import TopBar from '../components/TopBar';
+import TopBar from '../src/components/TopBar';
 import { StylesProvider } from '@material-ui/core/styles';
 
 const Window = styled.div`

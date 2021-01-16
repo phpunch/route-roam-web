@@ -1,5 +1,5 @@
 import React from "react"
-import Home from "../pages"
+import Home from "../../pages"
 import Gallery from "./Gallery"
 
 const HomePage = () => {
