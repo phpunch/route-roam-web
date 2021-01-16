@@ -12,6 +12,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { UserContext } from './UserContext';
 
 import AuthService from '../services/auth.service';
+import AddIcon from '@material-ui/icons/Add';
 
 const Bar = styled(AppBar)`
   max-width: 410px;
@@ -30,7 +31,7 @@ const TopBar: React.FunctionComponent = () => {
   const { currentUser, removeUser } = useContext(UserContext);
 
   const logoutHandler = () => {
-    AuthService.logout()
+    AuthService.logout();
     removeUser();
   };
 
@@ -57,9 +58,17 @@ const TopBar: React.FunctionComponent = () => {
             Home
           </Button>
           {currentUser ? (
-            <Button color="inherit" onClick={logoutHandler}>
-              Logout
-            </Button>
+            <>
+              <Button
+                color="inherit"
+                onClick={() => router.push('/post/create')}
+              >
+                <AddIcon />
+              </Button>
+              <Button color="inherit" onClick={logoutHandler}>
+                Logout
+              </Button>
+            </>
           ) : (
             <Button color="inherit" onClick={() => router.push('/login')}>
               Login
