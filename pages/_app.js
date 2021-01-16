@@ -8,6 +8,7 @@ import '../styles/globals.css';
 import styled from '@emotion/styled';
 import TopBar from '../src/components/TopBar';
 import { StylesProvider } from '@material-ui/core/styles';
+import { UserProvider } from '../src/components/UserContext';
 
 const Window = styled.div`
   width: 404px;
@@ -40,10 +41,12 @@ export default function MyApp(props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <StylesProvider injectFirst>
-          <Window>
-            <TopBar />
-            <Component {...pageProps} />
-          </Window>
+          <UserProvider>
+            <Window>
+              <TopBar />
+              <Component {...pageProps} />
+            </Window>
+          </UserProvider>
         </StylesProvider>
       </ThemeProvider>
     </React.Fragment>

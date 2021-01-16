@@ -6,9 +6,12 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
-import { useRouter } from 'next/router';
-
 import MenuIcon from '@material-ui/icons/Menu';
+import { useRouter } from 'next/router';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { UserContext } from './UserContext';
+
+import AuthService from '../services/auth.service';
 
 const Bar = styled(AppBar)`
   max-width: 410px;
@@ -24,9 +27,13 @@ const Bar = styled(AppBar)`
 const TopBar: React.FunctionComponent = () => {
   const router = useRouter();
 
-  const loginButtonHandler = () => {
-    router.push('/login');
+  const { currentUser, removeUser } = useContext(UserContext);
+
+  const logoutHandler = () => {
+    AuthService.logout()
+    removeUser();
   };
+
   return (
     <div>
       <Bar position="fixed">
@@ -49,9 +56,15 @@ const TopBar: React.FunctionComponent = () => {
           >
             Home
           </Button>
-          <Button color="inherit" onClick={() => router.push('/login')}>
-            Login
-          </Button>
+          {currentUser ? (
+            <Button color="inherit" onClick={logoutHandler}>
+              Logout
+            </Button>
+          ) : (
+            <Button color="inherit" onClick={() => router.push('/login')}>
+              Login
+            </Button>
+          )}
         </Toolbar>
       </Bar>
     </div>

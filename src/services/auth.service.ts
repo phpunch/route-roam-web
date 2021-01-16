@@ -2,14 +2,14 @@ import axios, { AxiosResponse } from "axios";
 
 
 class AuthService {
-  login(username, password) {
+  login(email: string, password: string) {
+    const formData = new FormData();
+    formData.append('email', email)
+    formData.append('password', password)
     return axios
-      .post(process.env.API_BASE_URL + "/login", {
-        username,
-        password
-      })
+      .post(process.env.API_BASE_URL + "/login", formData)
       .then(response => {
-        if (response.data.accessToken) {
+        if (response.data.access_token) {
           localStorage.setItem("user", JSON.stringify(response.data));
         }
 
@@ -25,10 +25,7 @@ class AuthService {
     const formData = new FormData();
     formData.append('email', email)
     formData.append('password', password)
-    return axios.post(process.env.API_BASE_URL + "/register", {
-      email,
-      password
-    });
+    return axios.post(process.env.API_BASE_URL + "/register", formData);
   }
 
   getCurrentUser() {

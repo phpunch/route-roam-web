@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import styled from '@emotion/styled';
 import TextField from '@material-ui/core/TextField';
 import { Button, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import AuthService from '../src/services/auth.service';
+import { useRouter } from 'next/router';
+import { UserContext } from '../src/components/UserContext';
 
 const Form = styled.form`
   margin-top: 75px;
@@ -35,7 +37,7 @@ const SuccessMessageBox = styled.div`
   margin-top: 20px;
   border-radius: 5px;
   text-align: center;
-`
+`;
 const FailedMessageBox = styled.div`
   width: 100%;
   background-color: #ffe2e2;
@@ -44,9 +46,11 @@ const FailedMessageBox = styled.div`
   margin-top: 20px;
   border-radius: 5px;
   text-align: center;
-`
+`;
 
 export default function Login() {
+  const router = useRouter();
+  const {setUser} = useContext(UserContext);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [message, setMessage] = useState<string | null>(null);
@@ -55,20 +59,22 @@ export default function Login() {
   const loginHandler = async () => {
     try {
       const data = await AuthService.login(email, password);
-      setMessage(data.message)
-      setSuccess(true)
+      setMessage(data.message);
+      setSuccess(true);
+      setUser(data.access_token)
+      router.push('/');
     } catch (e) {
-      setMessage(e.response.data.message)
-      setSuccess(false)
+      setMessage(e.response.data.message);
+      setSuccess(false);
     }
   };
 
-  let messageBox = null
+  let messageBox = null;
   if (message) {
     if (success) {
-      messageBox = <SuccessMessageBox>{message}</SuccessMessageBox>
+      messageBox = <SuccessMessageBox>{message}</SuccessMessageBox>;
     } else {
-      messageBox = <FailedMessageBox>{message}</FailedMessageBox>
+      messageBox = <FailedMessageBox>{message}</FailedMessageBox>;
     }
   }
 
