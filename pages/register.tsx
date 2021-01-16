@@ -103,7 +103,7 @@ export default function Login() {
           variant="contained"
           fullWidth
         >
-          Login
+          Signup
         </SubmitButton>
         {messageBox}
       </Form>
