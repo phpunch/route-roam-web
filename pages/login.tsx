@@ -79,7 +79,7 @@ export default function Login() {
   }
 
   return (
-    <p>
+    <>
       <Form noValidate autoComplete="off">
         <Text variant="h6" align="center">
           Login
@@ -111,6 +111,6 @@ export default function Login() {
         </SubmitButton>
         {messageBox}
       </Form>
-    </p>
+    </>
   );
 }
