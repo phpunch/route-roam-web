@@ -61,7 +61,7 @@ export default function Feed() {
             subheader={post.text}
             imageUrls={post.images}
             content={post.text}
-            likes={post.likes}
+            likesBy={post.likes}
           />
         </>
       ))}

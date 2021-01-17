@@ -24,14 +24,14 @@ interface LikeProps {
   liked: boolean;
 }
 
-const LikeIcon = styled(FavoriteIcon)<LikeProps>`
+const LikeIcon = styled(FavoriteIcon) <LikeProps>`
  color: ${({ liked }) => liked && 'red'};
 `
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    margin: '5% 0',
+    marginBottom: '1vh',
   },
   media: {
     height: 0,
@@ -59,23 +59,26 @@ interface PostCardInterface {
   subheader: string
   imageUrls: string[]
   content: string
-  likes: string[]
+  likesBy: string[]
 }
 const PostCard: React.FunctionComponent<PostCardInterface> = ({
-  id, userId, title, subheader, imageUrls, content, likes
+  id, userId, title, subheader, imageUrls, content, likesBy
 }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState<boolean>(false);
   const [liked, setLiked] = React.useState<boolean>(false);
+  console.log({ likesBy })
+  const [numLiked, setNumLiked] = React.useState<number>(likesBy ? likesBy.length : 0);
 
   useEffect(() => {
-    const index = likes.findIndex((likeUserId) => likeUserId === userId)
+    const index = likesBy.findIndex((likeUserId) => likeUserId === userId)
     if (index === -1) {
       setLiked(false)
-    } else {
-      setLiked(true)
+      return
     }
-  }, [likes])
+    setLiked(true)
+
+  }, [likesBy])
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -88,6 +91,7 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
       try {
         await postService.unlikePost(formData)
         setLiked(false)
+        setNumLiked(numLiked - 1)
       } catch (e) {
         console.log(e)
       }
@@ -96,6 +100,7 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
     try {
       await postService.likePost(formData)
       setLiked(true)
+      setNumLiked(numLiked + 1)
     } catch (e) {
       console.log(e)
     }
@@ -129,7 +134,7 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
         <IconButton aria-label="add to favorites" onClick={handleLikeButton}>
           <LikeIcon liked={liked} />
         </IconButton>
-        <Typography>{likes.length}</Typography>
+        <Typography>{numLiked}</Typography>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
