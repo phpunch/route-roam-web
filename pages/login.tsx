@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-
 import styled from '@emotion/styled';
 import TextField from '@material-ui/core/TextField';
 import { Button, Typography } from '@material-ui/core';
@@ -26,7 +25,7 @@ const TextInput = styled(TextField)`
 `;
 
 const SubmitButton = styled(Button)`
-  margin-top: 35px;
+  margin: 35px 0;
 `;
 
 const SuccessMessageBox = styled.div`
@@ -34,7 +33,7 @@ const SuccessMessageBox = styled.div`
   background-color: #95ff95;
   color: green;
   padding: 10px;
-  margin-top: 20px;
+  margin: 20px 0;
   border-radius: 5px;
   text-align: center;
 `;
@@ -43,7 +42,7 @@ const FailedMessageBox = styled.div`
   background-color: #ffe2e2;
   color: red;
   padding: 10px;
-  margin-top: 20px;
+  margin: 20px 0;
   border-radius: 5px;
   text-align: center;
 `;
@@ -110,6 +109,17 @@ export default function Login() {
           Login
         </SubmitButton>
         {messageBox}
+        <Typography align="center">
+          Don't have an account yet?
+        </Typography>
+        <SubmitButton
+          onClick={() => router.push('/register')}
+          color="secondary"
+          variant="contained"
+          fullWidth
+        >
+          Register
+        </SubmitButton>
       </Form>
     </>
   );
