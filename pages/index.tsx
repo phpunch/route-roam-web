@@ -1,13 +1,10 @@
 import React, { useContext, useEffect } from 'react';
-import Image from 'next/image'
 import styled from '@emotion/styled';
-import { Button, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import PostService from '../src/services/post.service';
 import PostCard from '../src/components/PostCard';
 
 const Container = styled.form`
-  margin-top: 75px;
 `;
 
 interface Post {
