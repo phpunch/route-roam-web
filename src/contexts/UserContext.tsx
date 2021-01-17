@@ -13,12 +13,12 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const user = AuthService.getCurrentUser();
     if (user) {
-      setCurrentUser(user.access_token);
+      setCurrentUser(user.user_id);
     }
   }, []);
 
-  const setUser = async (name) => {
-    setCurrentUser('punch');
+  const setUser = async (userId) => {
+    setCurrentUser(userId);
   };
 
   const removeUser = () => {

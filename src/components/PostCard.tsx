@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -19,6 +19,7 @@ import ImageCarousel from './ImageCarousel';
 
 import styled from '@emotion/styled';
 import postService from '../services/post.service';
+import { UserContext } from '../contexts/UserContext';
 
 interface LikeProps {
   liked: boolean;
@@ -65,13 +66,13 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
   id, userId, title, subheader, imageUrls, content, likesBy
 }) => {
   const classes = useStyles();
+  const {currentUser} = useContext(UserContext)
   const [expanded, setExpanded] = React.useState<boolean>(false);
   const [liked, setLiked] = React.useState<boolean>(false);
-  console.log({ likesBy })
   const [numLiked, setNumLiked] = React.useState<number>(likesBy ? likesBy.length : 0);
 
   useEffect(() => {
-    const index = likesBy.findIndex((likeUserId) => likeUserId === userId)
+    const index = likesBy.findIndex((likeUserId) => likeUserId === currentUser)
     if (index === -1) {
       setLiked(false)
       return

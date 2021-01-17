@@ -60,7 +60,7 @@ export default function Login() {
       const data = await AuthService.login(email, password);
       setMessage(data.message);
       setSuccess(true);
-      setUser(data.access_token)
+      setUser(data.user_id)
       router.push('/');
     } catch (e) {
       setMessage(e.response.data.message);
