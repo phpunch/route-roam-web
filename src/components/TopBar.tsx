@@ -15,14 +15,13 @@ import AuthService from '../services/auth.service';
 import AddIcon from '@material-ui/icons/Add';
 
 const Bar = styled(AppBar)`
-  max-width: 410px;
-  /* width: 100%; */
+  width: 400px;
+  height: 8vh;
+  margin: 0 auto;
+  position: relative;
   box-sizing: border-box;
   z-index: 2;
   box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.1);
-  left: 50%;
-  right: 50%;
-  transform: translate(-50%, 0);
 `;
 
 const TopBar: React.FunctionComponent = () => {
@@ -37,11 +36,8 @@ const TopBar: React.FunctionComponent = () => {
 
   return (
     <>
-      <Bar position="fixed">
+      <Bar>
         <Toolbar>
-          {/* <Typography variant="h6" className={classes.title}>
-          News
-        </Typography> */}
           <Button
             color="inherit"
             onClick={() => router.push('/')}

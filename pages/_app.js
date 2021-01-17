@@ -15,8 +15,8 @@ const Window = styled.div`
   width: 50vh;
   font-family: -apple-system, system-ui;
   position: relative;
-  height: 90vh;
-  max-height: 90vh;
+  height: 84vh;
+  max-height: 84vh;
   overflow-y: auto;
   box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.2);
   margin: 0 auto;
@@ -55,7 +55,7 @@ export default function MyApp(props) {
         <CssBaseline />
         <StylesProvider injectFirst>
           <UserProvider>
-            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', justifyItems: 'center'}}>
+            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
               <TopBar />
               <Window>
                 <Component {...pageProps} />
