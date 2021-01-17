@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import PostService from '../src/services/post.service';
 import PostCard from '../src/components/PostCard';
+import withPrivateRoute from '../src/hoc/withPrivateRoute';
 
 const Container = styled.form`
 `;
@@ -15,7 +16,7 @@ interface Post {
   likes: string[]
 }
 
-export default function Feed() {
+const Feed = () => {
   const [posts, setposts] = useState<Post[]>([]);
 
   const getAllPosts = async () => {
@@ -68,3 +69,4 @@ export default function Feed() {
     </Container>
   );
 }
+export default withPrivateRoute(Feed)
