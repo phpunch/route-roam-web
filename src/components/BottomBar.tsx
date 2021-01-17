@@ -14,18 +14,27 @@ import { UserContext } from './UserContext';
 import AuthService from '../services/auth.service';
 import AddIcon from '@material-ui/icons/Add';
 
-const Bar = styled(AppBar)`
+// const Bar = styled(AppBar)`
+//   max-width: 410px;
+//   /* width: 100%; */
+//   box-sizing: border-box;
+//   z-index: 3;
+//   box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.1);
+//   left: 50%;
+//   right: 50%;
+//   transform: translate(-50%, 0);
+// `;
+const Bar = styled.div`
   max-width: 410px;
   /* width: 100%; */
   box-sizing: border-box;
-  z-index: 2;
+  z-index: 3;
   box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.1);
-  left: 50%;
-  right: 50%;
-  transform: translate(-50%, 0);
+  display: flex;
+  justify-content: center;
 `;
 
-const TopBar: React.FunctionComponent = () => {
+const BottomBar: React.FunctionComponent = () => {
   const router = useRouter();
 
   const { currentUser, removeUser } = useContext(UserContext);
@@ -36,38 +45,33 @@ const TopBar: React.FunctionComponent = () => {
   };
 
   return (
-    <>
-      <Bar position="fixed">
-        <Toolbar>
-          {/* <Typography variant="h6" className={classes.title}>
-          News
-        </Typography> */}
-          <Button
-            color="inherit"
-            onClick={() => router.push('/')}
-          >
-            Home
+    <Bar color="primary">
+      <Toolbar>
+        <Button
+          color="inherit"
+          onClick={() => router.push('/')}
+        >
+          Home
           </Button>
-          {currentUser ? (
-            <>
-              <Button
-                color="inherit"
-                onClick={() => router.push('/post/create')}
-              >
-                <AddIcon />
+        {currentUser ? (
+          <>
+            <Button
+              color="inherit"
+              onClick={() => router.push('/post/create')}
+            >
+              <AddIcon />
+            </Button>
+            <Button color="inherit" onClick={logoutHandler}>
+              Logout
               </Button>
-              <Button color="inherit" onClick={logoutHandler}>
-                Logout
-              </Button>
-            </>
-          ) : (
+          </>
+        ) : (
             <Button color="inherit" onClick={() => router.push('/login')}>
               Login
             </Button>
           )}
-        </Toolbar>
-      </Bar>
-    </>
+      </Toolbar>
+    </Bar>
   );
 };
-export default TopBar;
+export default BottomBar;
