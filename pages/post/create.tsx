@@ -61,13 +61,13 @@ export default function CreatePostPage() {
     try {
       const formData = new FormData()
       formData.append('text', text)
-      for (let i = 0; i< validFiles.length; i++) {
+      for (let i = 0; i < validFiles.length; i++) {
         formData.append('datasetPath[]', validFiles[i])
       }
       const res = await PostService.createPost(formData);
       setMessage(res.data.message);
       setSuccess(true);
-      
+
       // router.push('/');
     } catch (e) {
       console.log(e.response.data.message)
@@ -91,7 +91,7 @@ export default function CreatePostPage() {
         <Text variant="h6" align="center">
           Create a post
         </Text>
-        <DropZone setCanSubmit={setCanSubmit} validFiles={validFiles} setValidFiles={setValidFiles}/>
+        <DropZone setCanSubmit={setCanSubmit} validFiles={validFiles} setValidFiles={setValidFiles} />
         <TextInput
           id="filled-basic"
           label="text"
