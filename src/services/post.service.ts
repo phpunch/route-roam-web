@@ -17,11 +17,16 @@ class PostService {
       headers: authHeader(),
     });
   }
-
-  // router.POST("/post", c.CreatePost)
-  // 	router.POST("/like", c.LikePost)
-  // 	router.POST("/unlike", c.UnlikePost)
-  // 	router.GET("/posts", c.GetPosts)
+  likePost(formData: FormData) {
+    return axios.post(process.env.API_BASE_URL + '/like', formData, {
+      headers: authHeader(),
+    });
+  }
+  unlikePost(formData: FormData) {
+    return axios.post(process.env.API_BASE_URL + '/unlike', formData, {
+      headers: authHeader(),
+    });
+  }
   // 	router.POST("/comment", c.CommentPost)
   // 	router.GET("/comment/:postId", c.GetCommentsByPostID)
 }

@@ -8,9 +8,11 @@ const Container = styled.form`
 `;
 
 interface Post {
-  user_id: string;
+  id: string;
+  userId: string;
   text: string;
   images: string[];
+  likes: string[]
 }
 
 export default function Feed() {
@@ -27,13 +29,15 @@ export default function Feed() {
           process.env.API_BASE_URL + '/file/' + url
         ))
         newPosts = [...newPosts, {
-          user_id: tmpPosts[i].user_id,
+          id: tmpPosts[i].id,
+          userId: tmpPosts[i].user_id,
           text: tmpPosts[i].text,
           images: tmpImages,
+          likes: tmpPosts[i].liked_by
         }]
 
       }
-      setposts(newPosts)
+      setposts(newPosts.reverse())
 
     } catch (e) {
       console.log(e);
@@ -50,7 +54,15 @@ export default function Feed() {
     <Container>
       {posts.map((post) => (
         <>
-          <PostCard title={post.text} subheader={post.text} imageUrls={post.images} content={post.text} />
+          <PostCard
+            id={post.id}
+            userId={post.userId}
+            title={post.text}
+            subheader={post.text}
+            imageUrls={post.images}
+            content={post.text}
+            likes={post.likes}
+          />
         </>
       ))}
     </Container>

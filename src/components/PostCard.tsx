@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -16,6 +16,17 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ImageCarousel from './ImageCarousel';
+
+import styled from '@emotion/styled';
+import postService from '../services/post.service';
+
+interface LikeProps {
+  liked: boolean;
+}
+
+const LikeIcon = styled(FavoriteIcon)<LikeProps>`
+ color: ${({ liked }) => liked && 'red'};
+`
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,29 +53,62 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface PostCardInterface {
+  id: string
+  userId: string
   title: string
   subheader: string
   imageUrls: string[]
   content: string
+  likes: string[]
 }
 const PostCard: React.FunctionComponent<PostCardInterface> = ({
-  title, subheader, imageUrls, content,
+  id, userId, title, subheader, imageUrls, content, likes
 }) => {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState<boolean>(false);
+  const [liked, setLiked] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    const index = likes.findIndex((likeUserId) => likeUserId === userId)
+    if (index === -1) {
+      setLiked(false)
+    } else {
+      setLiked(true)
+    }
+  }, [likes])
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const handleLikeButton = async () => {
+    const formData = new FormData()
+    formData.append("postId", id)
+    if (liked) {
+      try {
+        await postService.unlikePost(formData)
+        setLiked(false)
+      } catch (e) {
+        console.log(e)
+      }
+      return
+    }
+    try {
+      await postService.likePost(formData)
+      setLiked(true)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <Card className={classes.root}>
       <CardHeader
-        // avatar={
-        //   <Avatar aria-label="recipe" className={classes.avatar}>
-        //     R
-        //   </Avatar>
-        // }
+        avatar={
+          <Avatar aria-label="recipe" className={classes.avatar}>
+            R
+          </Avatar>
+        }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
@@ -82,12 +126,10 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" onClick={handleLikeButton}>
+          <LikeIcon liked={liked} />
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+        <Typography>{likes.length}</Typography>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -101,29 +143,12 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-            minutes.
-          </Typography>
-          <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-            heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-            browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
-            and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and
-            pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
-            saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-          </Typography>
-          <Typography paragraph>
-            Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-            without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
-            medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
-            again without stirring, until mussels have opened and rice is just tender, 5 to 7
-            minutes more. (Discard any mussels that don’t open.)
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
-          </Typography>
+          Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
+          heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
+          browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
+          and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and
+          pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
+          saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
         </CardContent>
       </Collapse>
     </Card>
