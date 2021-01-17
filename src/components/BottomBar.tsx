@@ -9,10 +9,12 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { UserContext } from './UserContext';
+import { UserContext } from '../contexts/UserContext';
 
 import AuthService from '../services/auth.service';
 import AddIcon from '@material-ui/icons/Add';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import HomeIcon from '@material-ui/icons/Home';
 
 const Bar = styled(AppBar)`
   width: 400px;
@@ -39,28 +41,23 @@ const TopBar: React.FunctionComponent = () => {
       <Bar>
         <Toolbar>
           <Button
+            style={{ marginRight: 'auto' }}
             color="inherit"
             onClick={() => router.push('/')}
           >
-            Home
+            <HomeIcon />
           </Button>
           {currentUser ? (
             <>
-              <Button
-                color="inherit"
-                onClick={() => router.push('/post/create')}
-              >
-                <AddIcon />
-              </Button>
-              <Button color="inherit" onClick={logoutHandler}>
-                Logout
+              <Button color="inherit">
+                <AccountCircleIcon />
               </Button>
             </>
           ) : (
-            <Button color="inherit" onClick={() => router.push('/login')}>
-              Login
-            </Button>
-          )}
+              <Button color="inherit" onClick={() => router.push('/login')}>
+                Login
+              </Button>
+            )}
         </Toolbar>
       </Bar>
     </>

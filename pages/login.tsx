@@ -5,7 +5,7 @@ import { Button, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import AuthService from '../src/services/auth.service';
 import { useRouter } from 'next/router';
-import { UserContext } from '../src/components/UserContext';
+import { UserContext } from '../src/contexts/UserContext';
 
 const Form = styled.form`
   margin-top: 75px;

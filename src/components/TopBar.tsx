@@ -9,7 +9,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { UserContext } from './UserContext';
+import { UserContext } from '../contexts/UserContext';
 
 import AuthService from '../services/auth.service';
 import AddIcon from '@material-ui/icons/Add';
@@ -32,38 +32,38 @@ const TopBar: React.FunctionComponent = () => {
   const logoutHandler = () => {
     AuthService.logout();
     removeUser();
+    router.push('/login')
   };
 
   return (
-    <>
-      <Bar>
-        <Toolbar>
-          <Button
-            color="inherit"
-            onClick={() => router.push('/')}
-          >
-            Home
+    <Bar>
+      <Toolbar>
+        <Button
+          style={{marginRight: 'auto'}}
+          color="inherit"
+          onClick={() => router.push('/')}
+        >
+          Route Roam
           </Button>
-          {currentUser ? (
-            <>
-              <Button
-                color="inherit"
-                onClick={() => router.push('/post/create')}
-              >
-                <AddIcon />
+        {currentUser ? (
+          <>
+            <Button
+              color="inherit"
+              onClick={() => router.push('/post/create')}
+            >
+              <AddIcon />
+            </Button>
+            <Button color="inherit" onClick={logoutHandler}>
+              Logout
               </Button>
-              <Button color="inherit" onClick={logoutHandler}>
-                Logout
-              </Button>
-            </>
-          ) : (
+          </>
+        ) : (
             <Button color="inherit" onClick={() => router.push('/login')}>
               Login
             </Button>
           )}
-        </Toolbar>
-      </Bar>
-    </>
+      </Toolbar>
+    </Bar>
   );
 };
 export default TopBar;

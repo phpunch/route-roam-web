@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import TopBar from '../src/components/TopBar';
 import BottomBar from '../src/components/BottomBar';
 import { StylesProvider } from '@material-ui/core/styles';
-import { UserProvider } from '../src/components/UserContext';
+import { UserProvider } from '../src/contexts/UserContext';
 
 const Window = styled.div`
   width: 50vh;

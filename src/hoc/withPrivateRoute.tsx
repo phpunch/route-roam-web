@@ -1,6 +1,6 @@
 import React, { Component, useContext } from 'react';
 import Router from 'next/router';
-import { UserContext } from '../components/UserContext';
+import { UserContext } from '../contexts/UserContext';
 import authService from '../services/auth.service';
 
 const login = '/login'; // Define your login route address.
