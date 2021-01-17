@@ -15,6 +15,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ImageCarousel from './ImageCarousel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,15 +73,8 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
         title={title}
         subheader={subheader}
       />
-      {
-        // console.log({imageUrls})
-        imageUrls.map(url => (
-          <CardMedia
-            className={classes.media}
-            image={url}
-          />
-        ))
-      }
+      <ImageCarousel imageUrls={imageUrls} />
+
 
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">

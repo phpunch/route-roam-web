@@ -50,7 +50,8 @@ export default function Feed() {
     <Container>
       {posts.map((post) => (
         <>
-          <PostCard title={post.text} subheader={post.text} imageUrls={post.images} content={post.text} /></>
+          <PostCard title={post.text} subheader={post.text} imageUrls={post.images} content={post.text} />
+        </>
       ))}
     </Container>
   );
