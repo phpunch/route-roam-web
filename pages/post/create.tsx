@@ -94,10 +94,10 @@ export default function CreatePostPage() {
         </Text>
         <DropZone setCanSubmit={setCanSubmit} validFiles={validFiles} setValidFiles={setValidFiles} />
         <TextInput
-          id="filled-basic"
-          label="text"
-          variant="outlined"
+          placeholder="What's on your mind?"
+          multiline
           fullWidth
+          variant="outlined"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
