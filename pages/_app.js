@@ -10,6 +10,7 @@ import TopBar from '../src/components/TopBar';
 import BottomBar from '../src/components/BottomBar';
 import { StylesProvider } from '@material-ui/core/styles';
 import { UserProvider } from '../src/contexts/UserContext';
+import { DialogProvider } from '../src/contexts/DialogContext';
 
 const Window = styled.div`
   width: 50vh;
@@ -54,15 +55,23 @@ export default function MyApp(props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <StylesProvider injectFirst>
-          <UserProvider>
-            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-              <TopBar />
-              <Window>
-                <Component {...pageProps} />
-              </Window>
-              <BottomBar />
-            </div>
-          </UserProvider>
+          <DialogProvider>
+            <UserProvider>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
+                <TopBar />
+                <Window>
+                  <Component {...pageProps} />
+                </Window>
+                <BottomBar />
+              </div>
+            </UserProvider>
+          </DialogProvider>
         </StylesProvider>
       </ThemeProvider>
     </React.Fragment>
