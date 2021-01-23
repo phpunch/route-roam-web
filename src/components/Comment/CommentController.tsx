@@ -39,13 +39,11 @@ const CommentController: React.FunctionComponent<CommentControllerProps> = ({
   };
 
   const addNewComment = (comment: Comment) => {
-    console.log({ comment });
     setcomments([...comments, comment]);
   };
 
   const handleSendComment = async () => {
     try {
-      console.log({ ref });
       const formData = new FormData();
       formData.append('postId', postId);
       formData.append('text', commentInput);
