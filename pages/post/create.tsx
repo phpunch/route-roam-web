@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import styled from '@emotion/styled';
 import TextField from '@material-ui/core/TextField';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogTitle, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import PostService from '../../src/services/post.service';
 import { useRouter } from 'next/router';
@@ -50,6 +50,8 @@ const FailedMessageBox = styled.div`
 
 export default function CreatePostPage() {
   const router = useRouter();
+
+  const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
   const [validFiles, setValidFiles] = useState([]);
 
@@ -67,8 +69,7 @@ export default function CreatePostPage() {
       const res = await PostService.createPost(formData);
       setMessage(res.data.message);
       setSuccess(true);
-
-      // router.push('/');
+      setOpen(true)
     } catch (e) {
       console.log(e.response.data.message)
       setMessage(e.response.data.message);
@@ -111,6 +112,14 @@ export default function CreatePostPage() {
         </SubmitButton>
         {messageBox}
       </Form>
+      <Dialog
+        open={open}
+      >
+        <DialogTitle>Create Post Successfully</DialogTitle>
+        <DialogActions>
+          <Button variant="outlined" color="primary" onClick={() => router.push('/')}>OK</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
