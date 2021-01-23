@@ -57,9 +57,10 @@ interface PostCardInterface {
   imageUrls: string[]
   content: string
   likesBy: string[]
+  handleDelete: () => void
 }
 const PostCard: React.FunctionComponent<PostCardInterface> = ({
-  id, userId, title, imageUrls, content, likesBy
+  id, userId, title, imageUrls, content, likesBy, handleDelete
 }) => {
   const classes = useStyles();
   const { currentUser } = useContext(UserContext)
@@ -115,15 +116,6 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
     setAnchorEl(null);
   };
 
-  const handleDeletePost = async () => {
-    try {
-      await postService.deletePost(id)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -153,7 +145,7 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
               }}
             >
               <MenuItem>Edit</MenuItem>
-              <MenuItem onClick={handleDeletePost}>Delete</MenuItem>
+              <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>
           </>
 

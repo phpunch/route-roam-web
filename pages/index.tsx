@@ -4,6 +4,7 @@ import { useState } from 'react';
 import PostService from '../src/services/post.service';
 import PostCard from '../src/components/PostCard';
 import withPrivateRoute from '../src/hoc/withPrivateRoute';
+import postService from '../src/services/post.service';
 
 
 interface Post {
@@ -15,8 +16,9 @@ interface Post {
   likes: string[]
 }
 
+
 const Feed = () => {
-  const [posts, setposts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const getAllPosts = async () => {
     try {
@@ -38,7 +40,7 @@ const Feed = () => {
         }]
 
       }
-      setposts(newPosts.reverse())
+      setPosts(newPosts.reverse())
 
     } catch (e) {
       console.log(e);
@@ -49,7 +51,15 @@ const Feed = () => {
     getAllPosts();
   }, []);
 
-  console.log(posts)
+  const handleDelete = async (postId: string) => {
+    try {
+      await postService.deletePost(postId)
+      const newPosts = posts.filter((post) => post.id != postId)
+      setPosts(newPosts)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   return (
     <>
@@ -62,6 +72,7 @@ const Feed = () => {
           imageUrls={post.images}
           content={post.text}
           likesBy={post.likes}
+          handleDelete={() => handleDelete(post.id)}
         />
       ))}
     </>
