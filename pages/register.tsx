@@ -2,9 +2,10 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 import TextField from '@material-ui/core/TextField';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogTitle, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import AuthService from '../src/services/auth.service';
+import { useRouter } from 'next/router';
 
 const Form = styled.form`
   margin-top: 75px;
@@ -46,7 +47,9 @@ const FailedMessageBox = styled.div`
   text-align: center;
 `
 
-export default function Login() {
+export default function Register() {
+  const router = useRouter()
+  const [open, setOpen] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [message, setMessage] = useState<string | null>(null);
@@ -58,12 +61,17 @@ export default function Login() {
       console.log(res);
       setMessage(res.data.message)
       setSuccess(true)
+      setOpen(true)
     } catch (e) {
       console.log(e);
       setMessage(e.response.data.message)
       setSuccess(false)
     }
   };
+
+  const handleRedirect = () => {
+    router.push('/login')
+  }
 
   let messageBox = null
   if (message) {
@@ -75,7 +83,7 @@ export default function Login() {
   }
 
   return (
-    <p>
+    <>
       <Form noValidate autoComplete="off">
         <Text variant="h6" align="center">
           Register
@@ -107,6 +115,14 @@ export default function Login() {
         </SubmitButton>
         {messageBox}
       </Form>
-    </p>
+      <Dialog
+        open={open}
+      >
+        <DialogTitle>Register Successfully</DialogTitle>
+        <DialogActions>
+          <Button variant="outlined" color="primary" onClick={handleRedirect}>OK</Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }
