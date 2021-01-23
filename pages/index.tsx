@@ -5,12 +5,11 @@ import PostService from '../src/services/post.service';
 import PostCard from '../src/components/PostCard';
 import withPrivateRoute from '../src/hoc/withPrivateRoute';
 
-const Container = styled.form`
-`;
 
 interface Post {
   id: string;
   userId: string;
+  username: string;
   text: string;
   images: string[];
   likes: string[]
@@ -32,6 +31,7 @@ const Feed = () => {
         newPosts = [...newPosts, {
           id: tmpPosts[i].id,
           userId: tmpPosts[i].user_id,
+          username: tmpPosts[i].username,
           text: tmpPosts[i].text,
           images: tmpImages,
           likes: tmpPosts[i].liked_by
@@ -52,21 +52,19 @@ const Feed = () => {
   console.log(posts)
 
   return (
-    <Container>
+    <>
       {posts.map((post) => (
-        <>
-          <PostCard
-            id={post.id}
-            userId={post.userId}
-            title={post.text}
-            subheader={post.text}
-            imageUrls={post.images}
-            content={post.text}
-            likesBy={post.likes}
-          />
-        </>
+        <PostCard
+          key={post.id}
+          id={post.id}
+          userId={post.userId}
+          title={post.username}
+          imageUrls={post.images}
+          content={post.text}
+          likesBy={post.likes}
+        />
       ))}
-    </Container>
+    </>
   );
 }
 export default withPrivateRoute(Feed)

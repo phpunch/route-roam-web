@@ -19,7 +19,7 @@ const ImageCarousel: React.FunctionComponent<ImageCarouselInterface> = ({
     return (
         <Carousel indicators={false} >
             {
-                imageUrls.map((url, i) => <Image src={url} />)
+                imageUrls.map((url, i) => <Image key={i} src={url} />)
             }
         </Carousel>
     )
