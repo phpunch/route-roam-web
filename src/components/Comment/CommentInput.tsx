@@ -20,8 +20,15 @@ const StyledButton = styled(Button)`
   height: 55px;
 `;
 
+interface CommentInputProps {
+  value: string
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  handleSendComment: (comment) => {}
+}
 
-const CommentInput: React.FunctionComponent = () => {
+const CommentInput: React.FunctionComponent<CommentInputProps> = ({
+  value, setValue, handleSendComment
+}) => {
 
   return (
     <Container>
@@ -30,9 +37,11 @@ const CommentInput: React.FunctionComponent = () => {
         multiline
         fullWidth
         variant="outlined"
-
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
-      <StyledButton size="small">Send</StyledButton>
+      <StyledButton
+        onClick={handleSendComment}>Send</StyledButton>
 
 
     </Container>

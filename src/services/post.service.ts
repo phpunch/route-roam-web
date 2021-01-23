@@ -27,8 +27,16 @@ class PostService {
       headers: authHeader(),
     });
   }
-  // 	router.POST("/comment", c.CommentPost)
-  // 	router.GET("/comment/:postId", c.GetCommentsByPostID)
+  comment(formData: FormData) {
+    return axios.post(process.env.API_BASE_URL + '/comment', formData, {
+      headers: authHeader(),
+    });
+  }
+  getComments(postId: string) {
+    return axios.get(process.env.API_BASE_URL + '/comment/' + postId, {
+      headers: authHeader(),
+    });
+  }
 }
 
 export default new PostService();

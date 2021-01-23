@@ -28,17 +28,25 @@ const Box = styled.div`
   font-weight: 400;
 `
 
-const Comment: React.FunctionComponent = () => {
+interface CommentBoxProps {
+  avatarImageSrc: string;
+  username: string;
+  text: string;
+}
+
+const CommentBox: React.FunctionComponent<CommentBoxProps> = ({
+  avatarImageSrc, username, text
+}) => {
 
   return (
     <Container>
-      <Profile alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+      <Profile alt="Cindy Baker" src={avatarImageSrc} />
       <InnerContainer>
-        <BoldBox>Hello</BoldBox>
-        <Box>สวัสดีวันจันทร์นะครับเพราะว่าวันนี้เราจะมีประชุมกันทุกสัปดาห์จนไปถึงวันพุธ</Box>
+        <BoldBox>{username}</BoldBox>
+        <Box>{text}</Box>
       </InnerContainer>
 
     </Container>
   );
 };
-export default Comment;
+export default CommentBox;

@@ -22,8 +22,9 @@ import CommentIcon from '@material-ui/icons/Comment';
 import styled from '@emotion/styled';
 import postService from '../services/post.service';
 import { UserContext } from '../contexts/UserContext';
-import Comment from './Comment/Comment';
+import Comment from './Comment/CommentBox';
 import CommentInput from './Comment/CommentInput';
+import CommentController from './Comment/CommentController';
 
 interface LikeProps {
   liked: boolean;
@@ -146,8 +147,7 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Comment />
-          <CommentInput />
+          <CommentController postId={id}/>
         </CardContent>
       </Collapse>
     </Card>
