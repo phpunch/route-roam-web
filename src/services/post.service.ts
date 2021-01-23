@@ -17,6 +17,11 @@ class PostService {
       headers: authHeader(),
     });
   }
+  deletePost(postId: string) {
+    return axios.delete(process.env.API_BASE_URL + '/post/' + postId, {
+      headers: authHeader(),
+    });
+  }
   likePost(formData: FormData) {
     return axios.post(process.env.API_BASE_URL + '/like', formData, {
       headers: authHeader(),

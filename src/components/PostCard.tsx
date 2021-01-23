@@ -1,19 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ImageCarousel from './ImageCarousel';
 
@@ -22,9 +17,8 @@ import CommentIcon from '@material-ui/icons/Comment';
 import styled from '@emotion/styled';
 import postService from '../services/post.service';
 import { UserContext } from '../contexts/UserContext';
-import Comment from './Comment/CommentBox';
-import CommentInput from './Comment/CommentInput';
 import CommentController from './Comment/CommentController';
+import { Menu, MenuItem, Popover } from '@material-ui/core';
 
 interface LikeProps {
   liked: boolean;
@@ -32,6 +26,10 @@ interface LikeProps {
 
 const LikeIcon = styled(FavoriteIcon) <LikeProps>`
  color: ${({ liked }) => liked && 'red'};
+`
+
+const Selection = styled(Typography)`
+  padding: 10px;
 `
 
 const useStyles = makeStyles((theme) => ({
@@ -64,10 +62,13 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
   id, userId, title, imageUrls, content, likesBy
 }) => {
   const classes = useStyles();
-  const {currentUser} = useContext(UserContext)
+  const { currentUser } = useContext(UserContext)
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [expanded, setExpanded] = React.useState<boolean>(false);
   const [liked, setLiked] = React.useState<boolean>(false);
   const [numLiked, setNumLiked] = React.useState<number>(likesBy ? likesBy.length : 0);
+
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     const index = likesBy.findIndex((likeUserId) => likeUserId === currentUser)
@@ -105,6 +106,24 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
     }
   }
 
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDeletePost = async () => {
+    try {
+      await postService.deletePost(id)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -114,9 +133,30 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <>
+            <IconButton aria-label="settings" onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
+              <MenuItem>Edit</MenuItem>
+              <MenuItem onClick={handleDeletePost}>Delete</MenuItem>
+            </Menu>
+          </>
+
         }
         title={title}
       />
@@ -142,7 +182,7 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <CommentController postId={id}/>
+          <CommentController postId={id} />
         </CardContent>
       </Collapse>
     </Card>
