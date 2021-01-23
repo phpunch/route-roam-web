@@ -50,14 +50,14 @@ const FailedMessageBox = styled.div`
 export default function Login() {
   const router = useRouter();
   const {setUser} = useContext(UserContext);
-  const [email, setEmail] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [message, setMessage] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
   const loginHandler = async () => {
     try {
-      const data = await AuthService.login(email, password);
+      const data = await AuthService.login(username, password);
       setMessage(data.message);
       setSuccess(true);
       setUser(data.user_id)
@@ -85,11 +85,11 @@ export default function Login() {
         </Text>
         <TextInput
           id="filled-basic"
-          label="email"
+          label="username"
           variant="outlined"
           fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <TextInput
           id="outlined-basic"

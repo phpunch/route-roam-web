@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 import TextField from '@material-ui/core/TextField';
-import { Button, Dialog, DialogActions, DialogTitle, Typography } from '@material-ui/core';
+import { Avatar, Button, Dialog, DialogActions, DialogTitle, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import AuthService from '../src/services/auth.service';
 import { useRouter } from 'next/router';
@@ -50,14 +50,14 @@ const FailedMessageBox = styled.div`
 export default function Register() {
   const router = useRouter()
   const [open, setOpen] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [message, setMessage] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
   const registerHandler = async () => {
     try {
-      const res = await AuthService.register(email, password);
+      const res = await AuthService.register(username, password);
       console.log(res);
       setMessage(res.data.message)
       setSuccess(true)
@@ -89,15 +89,13 @@ export default function Register() {
           Register
         </Text>
         <TextInput
-          id="filled-basic"
-          label="email"
+          label="username"
           variant="outlined"
           fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <TextInput
-          id="outlined-basic"
           label="password"
           variant="outlined"
           fullWidth

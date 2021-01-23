@@ -2,9 +2,9 @@ import axios, { AxiosResponse } from "axios";
 
 
 class AuthService {
-  login(email: string, password: string) {
+  login(username: string, password: string) {
     const formData = new FormData();
-    formData.append('email', email)
+    formData.append('username', username)
     formData.append('password', password)
     return axios
       .post(process.env.API_BASE_URL + "/login", formData)
@@ -21,9 +21,9 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(email: string, password: string): Promise<AxiosResponse<any>>{
+  register(username: string, password: string): Promise<AxiosResponse<any>>{
     const formData = new FormData();
-    formData.append('email', email)
+    formData.append('username', username)
     formData.append('password', password)
     return axios.post(process.env.API_BASE_URL + "/register", formData);
   }

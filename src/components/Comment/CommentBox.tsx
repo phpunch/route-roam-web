@@ -8,6 +8,7 @@ const Profile = styled(Avatar)`
 
 const Container = styled.div`
   width: 100%;
+  margin: 10px 0;
   display: flex;
 `;
 
@@ -29,18 +30,17 @@ const Box = styled.div`
 `
 
 interface CommentBoxProps {
-  avatarImageSrc: string;
   username: string;
   text: string;
 }
 
 const CommentBox: React.FunctionComponent<CommentBoxProps> = ({
-  avatarImageSrc, username, text
+  username, text
 }) => {
 
   return (
     <Container>
-      <Profile alt="Cindy Baker" src={avatarImageSrc} />
+      <Profile>{username}</Profile>
       <InnerContainer>
         <BoldBox>{username}</BoldBox>
         <Box>{text}</Box>

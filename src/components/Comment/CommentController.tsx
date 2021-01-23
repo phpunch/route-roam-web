@@ -7,6 +7,7 @@ interface Comment {
   id: string;
   post_id: string;
   user_id: string;
+  username: string
   text: string;
 }
 
@@ -54,7 +55,7 @@ const CommentController: React.FunctionComponent<CommentControllerProps> = ({
   return (
     <>
       {comments && comments.map(comment => (
-        <CommentBox username={comment.user_id} text={comment.text} />
+        <CommentBox key={comment.id} username={comment.username} text={comment.text} />
       ))}
       <CommentInput
         value={commentInput}

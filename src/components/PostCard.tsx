@@ -50,22 +50,18 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.shortest,
     }),
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
 }));
 
 interface PostCardInterface {
   id: string
   userId: string
   title: string
-  subheader: string
   imageUrls: string[]
   content: string
   likesBy: string[]
 }
 const PostCard: React.FunctionComponent<PostCardInterface> = ({
-  id, userId, title, subheader, imageUrls, content, likesBy
+  id, userId, title, imageUrls, content, likesBy
 }) => {
   const classes = useStyles();
   const {currentUser} = useContext(UserContext)
@@ -113,8 +109,8 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+          <Avatar>
+            {title}
           </Avatar>
         }
         action={
@@ -123,7 +119,6 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
           </IconButton>
         }
         title={title}
-        subheader={subheader}
       />
       <ImageCarousel imageUrls={imageUrls} />
 
