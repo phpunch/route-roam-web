@@ -1,21 +1,50 @@
-FROM node:12
+# Base on offical Node.js Alpine image
+FROM node:12-alpine as build
 
-ENV PORT 3000
+# Set working directory
+WORKDIR /usr/app
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# Install PM2 globally
+RUN npm install --global pm2
 
-# Installing dependencies
-COPY package*.json /usr/src/app/
+# Copy package.json and package-lock.json before other files
+# Utilise Docker cache to save re-installing dependencies if unchanged
+COPY ./package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copying source files
-COPY . /usr/src/app
+# Copy all files
+COPY ./ ./
 
-# Building app
+# Build app
 RUN npm run build
-EXPOSE 3000
 
-# Running the app
-CMD "npm" "run" "dev"
+# # Expose the listening port
+# EXPOSE 3000
+
+# # Run container as non-root (unprivileged) user
+# # The node user is provided in the Node.js Alpine base image
+# USER node
+
+# # Run npm start script with PM2 when container starts
+# CMD [ "pm2-runtime", "npm", "--", "start" ]
+
+
+# Base on offical NGINX Alpine image
+FROM nginx:alpine
+
+# Remove any existing config files
+RUN rm /etc/nginx/conf.d/*
+
+COPY --from=build /usr/app/out /var/www
+
+# Copy config files
+# *.conf files in conf.d/ dir get included in main config
+COPY ./default.conf /etc/nginx/conf.d/
+
+# Expose the listening port
+EXPOSE 80
+
+# Launch NGINX
+CMD [ "nginx", "-g", "daemon off;" ]
