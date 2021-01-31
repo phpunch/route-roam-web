@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import styled from '@emotion/styled';
 import { useState } from 'react';
 import PostService from '../src/services/post.service';
 import PostCard from '../src/components/PostCard';
@@ -23,20 +22,19 @@ const Feed = () => {
   const getAllPosts = async () => {
     try {
       const res = await PostService.getPosts();
-      console.log({ res })
-      const tmpPosts = res.data.posts
+      const respPosts = res.data.posts
       let newPosts = []
-      for (let i = 0; i < tmpPosts.length; i++) {
-        const tmpImages = tmpPosts[i].image_url.map(url => (
+      for (let i = 0; i < respPosts.length; i++) {
+        const respImages = respPosts[i].image_url.map(url => (
           process.env.API_BASE_URL + '/file/' + url
         ))
         newPosts = [...newPosts, {
-          id: tmpPosts[i].id,
-          userId: tmpPosts[i].user_id,
-          username: tmpPosts[i].username,
-          text: tmpPosts[i].text,
-          images: tmpImages,
-          likes: tmpPosts[i].liked_by
+          id: respPosts[i].id,
+          userId: respPosts[i].user_id,
+          username: respPosts[i].username,
+          text: respPosts[i].text,
+          images: respImages,
+          likes: respPosts[i].liked_by
         }]
 
       }

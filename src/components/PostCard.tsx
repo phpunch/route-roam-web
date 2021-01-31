@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -32,27 +31,17 @@ const Selection = styled(Typography)`
   padding: 10px;
 `
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    marginBottom: '1vh',
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-}));
+const Container = styled(Card)`
+  width: 100%;
+  margin-bottom: 1vh;
+`
+
+const ExpandButton = styled(IconButton)`
+  margin-left: auto;
+`
 
 interface PostCardInterface {
   id: string
-  userId: string
   title: string
   imageUrls: string[]
   content: string
@@ -60,9 +49,8 @@ interface PostCardInterface {
   handleDelete: () => void
 }
 const PostCard: React.FunctionComponent<PostCardInterface> = ({
-  id, userId, title, imageUrls, content, likesBy, handleDelete
+  id, title, imageUrls, content, likesBy, handleDelete
 }) => {
-  const classes = useStyles();
   const { currentUser } = useContext(UserContext)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [expanded, setExpanded] = React.useState<boolean>(false);
@@ -117,7 +105,7 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
   };
 
   return (
-    <Card className={classes.root}>
+    <Container>
       <CardHeader
         avatar={
           <Avatar>
@@ -154,7 +142,6 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
       />
       <ImageCarousel imageUrls={imageUrls} />
 
-
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {content}
@@ -165,19 +152,18 @@ const PostCard: React.FunctionComponent<PostCardInterface> = ({
           <LikeIcon liked={liked} />
         </IconButton>
         <Typography>{numLiked}</Typography>
-        <IconButton
-          className={classes.expand}
+        <ExpandButton
           onClick={handleExpandClick}
         >
           <CommentIcon />
-        </IconButton>
+        </ExpandButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <CommentController postId={id} />
         </CardContent>
       </Collapse>
-    </Card>
+    </Container>
   );
 }
 export default PostCard

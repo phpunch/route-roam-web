@@ -2,13 +2,11 @@ import styled from '@emotion/styled';
 import {
   AppBar,
   Toolbar,
-  IconButton,
-  Typography,
   Button,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useRouter } from 'next/router';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 
 import AuthService from '../services/auth.service';

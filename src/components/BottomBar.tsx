@@ -47,17 +47,6 @@ const TopBar: React.FunctionComponent = () => {
           >
             <HomeIcon />
           </Button>
-          {currentUser ? (
-            <>
-              <Button color="inherit">
-                <AccountCircleIcon />
-              </Button>
-            </>
-          ) : (
-              <Button color="inherit" onClick={() => router.push('/login')}>
-                Login
-              </Button>
-            )}
         </Toolbar>
       </Bar>
     </>

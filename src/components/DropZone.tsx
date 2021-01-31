@@ -22,9 +22,6 @@ const DropMessage = styled.div`
 `;
 
 const FileDisplayContainer = styled.div`
-  /* position: fixed;
-  width: 805px;
-  height: 800px; */
 `;
 const FileStatusBar = styled.div`
   width: 100%;
